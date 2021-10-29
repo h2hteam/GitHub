@@ -7,7 +7,50 @@ on:
   pull_request:
     branches: [ main ]
 
-
+jobs:
+  hello:
+     run-on: ubuntu-latest
+     
+     steps:
+        - name: Hello
+          run: echo Hello
+          
+world:
+  needs: hello
+  runs-on: ubuntu-latest
+  
+  steps:
+   - name: World
+     run: echo Hello
+     
+  
+ list:
+   needs: world
+   runs-on: ubuntu-latest
+   steps:
+    - uses: actions/checkout@v2
+      run: ls -la
+      
+   
+  test:
+    needs: world
+    runs-on: ubuntu-latest
+    
+    steps:
+     - uses: actions/checkout@v2
+     
+     - name: Verify Rainbow Exists
+       run: test-f ./rainbow-fruit.md
+       
+   deploy:
+     needs: test
+     evvironment: Production
+     runs-on: ubuntu-latest
+     
+     steps:
+      - name: Fake the deploy
+        run: echo Deploy
+    
 
 
 # Allows you to run this workflow manually from the Actions tab
